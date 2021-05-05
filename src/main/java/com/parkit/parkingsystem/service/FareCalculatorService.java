@@ -25,7 +25,7 @@ public class FareCalculatorService {
         double duration = (outHour - inHour) /(1000*60); // duration in minutes
         double ratio = duration/60; // coefficient for price calculation
 
-        if (ratio>0.5){ //durée > 30 minutes
+        if (ratio>=0.5){ //durée >= 30 minutes
             switch (ticket.getParkingSpot().getParkingType()){
                 case CAR: {
                     if (UsersRegNumber.contains(ticket.getVehicleRegNumber())){
@@ -45,7 +45,7 @@ public class FareCalculatorService {
                 }
                 default: throw new IllegalArgumentException("Unkown Parking Type");
             }
-        }else { // durée <= 30 minutes
+        }else { // durée < 30 minutes
             ticket.setPrice(0);
         }
 
