@@ -8,6 +8,8 @@ import com.parkit.parkingsystem.service.FareCalculatorService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -153,10 +155,11 @@ public class FareCalculatorServiceTest {
         assertEquals(ticket.getPrice(),Fare.BIKE_RATE_PER_HOUR * 0.95);
     }
 
-    @Test
-    public void calculateFareCarWithLessThanHalfAnHourParkingTime(){
+    @ParameterizedTest
+    @ValueSource (ints = {0, 15, 29})
+    public void calculateFareCarWithLessThanHalfAnHourParkingTime(int timeInside){
         Date inTime = new Date();
-        inTime.setTime( System.currentTimeMillis() - (  30 * 60 * 1000) );//30 minutes parking time or less should give free parking fare
+        inTime.setTime( System.currentTimeMillis() - (  timeInside * 60 * 1000) );//less than 30 minutes parking time should give free parking fare
         Date outTime = new Date();
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
 
