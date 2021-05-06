@@ -18,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.sql.SQLException;
+import java.util.Date;
 
 import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.*;
@@ -82,8 +83,16 @@ public class ParkingDataBaseIT {
     public void testParkingLotExit(){
         testParkingACar();
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-        parkingService.processExitingVehicle(); //outTime date à changer pour la vrai app
-        //TODO: check that the fare generated and out time are populated correctly in the database
-    }
 
+        parkingService.processExitingVehicle();
+
+        double ticketPrice = ticketDAO.getTicket("ABCDEF").getPrice();
+
+        Date out = ticketDAO.getTicket("ABCDEF").getOutTime();
+
+        //TODO: check that the fare generated and out time are populated correctly in the database
+
+        assertNotNull(ticketPrice);
+        assertNotNull(out);
+    }
 }
