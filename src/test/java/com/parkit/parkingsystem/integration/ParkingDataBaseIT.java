@@ -73,10 +73,9 @@ public class ParkingDataBaseIT {
 
         Ticket ticket = ticketDAO.getTicket("ABCDEF");
 
+        //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
         assertNotNull(ticket);
         assertEquals(parkACar1+1,parkACar2);
-
-        //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
     }
 
     @Test
