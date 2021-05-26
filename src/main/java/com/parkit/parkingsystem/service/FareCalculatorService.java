@@ -13,7 +13,7 @@ public class FareCalculatorService {
 
     private TicketDAO ticket;
 
-    public void calculateFare(Ticket ticket){
+    public void calculateFare(Ticket ticket, int nbEntry){
         if( (ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime())) ){
             throw new IllegalArgumentException("Out time provided is incorrect:"+ticket.getOutTime().toString());
         }
@@ -29,7 +29,7 @@ public class FareCalculatorService {
         if (ratio>=0.5){ //durée >= 30 minutes
             switch (ticket.getParkingSpot().getParkingType()){
                 case CAR: {
-                    if (ticket.getVehicleRegNumber() != null){
+                    if (nbEntry>1){
                         ticket.setPrice(ratio * Fare.CAR_RATE_PER_HOUR * 0.95); //Discount 5% for recurring users
                     }else {
                         ticket.setPrice(ratio * Fare.CAR_RATE_PER_HOUR);
@@ -37,7 +37,7 @@ public class FareCalculatorService {
                     break;
                 }
                 case BIKE: {
-                    if (ticket.getVehicleRegNumber() != null){
+                    if (nbEntry>1){
                         ticket.setPrice(ratio * Fare.BIKE_RATE_PER_HOUR * 0.95); //Discount 5% for recurring users
                     }else {
                         ticket.setPrice(ratio * Fare.BIKE_RATE_PER_HOUR);
